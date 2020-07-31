@@ -1,0 +1,87 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h2>
+		<center>Cadastro de Pessoas</center>
+	</h2>
+</h:head>
+<h:body>
+
+	<h:panelGroup>
+		<h:form id="form">
+			<p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+			<h:panelGrid id="grid" columns="3" cellpadding="5">
+				<p:outputLabel for="nome" value="Nome" />
+				<p:inputText id="nome" required="true"
+					value="#{pessoaBean.newuser.name}"
+					requiredMessage="Nome: Campo requerido" />
+				<p:message for="nome" />
+
+
+				<p:outputLabel for="dtNasc" value="Dt Nascimento:"
+					requiredMessage="Nome: Campo requerido" />
+				<p:calendar id="dtNasc" value="#{pessoaBean.newuser.birthDate}"
+					required="true" requiredMessage="Dt Nascimento: Campo requerido"
+					label="Dt Nascimento" />
+				<p:message for="dtNasc" />
+
+
+				<p:outputLabel for="cpf" value="Cpf:" />
+				<p:inputText id="cpf" value="#{pessoaBean.newuser.cpf}"
+					required="true" requiredMessage="CPF: Campo requerido"
+					validatorMessage="Formato de CPF inválido" label="CPF">
+					<f:validateRegex
+						pattern="^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}" />
+				</p:inputText>
+				<p:message for="cpf" />
+
+				<p:outputLabel for="email" value="E-Mail:" />
+				<p:inputText id="email" value="#{pessoaBean.newuser.eMail}"
+					validatorMessage="Formato de e-Mail inválido">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<p:message for="email" />
+
+				<p:outputLabel for="naturalidade" value="Naturalidade:" />
+				<p:inputText id="naturalidade"
+					value="#{pessoaBean.newuser.cityOfBirth}" />
+				<p:message for="naturalidade" />
+
+				<p:outputLabel for="nacionalidade" value="Nacionalidade:" />
+				<p:inputText id="nacionalidade"
+					value="#{pessoaBean.newuser.countryOfBirth}" />
+				<p:message for="nacionalidade" />
+
+
+				<p:outputLabel for="nacionalidade" value="Genero:" />
+				<p:selectOneMenu label="Sex:" value="#{pessoaBean.newuser.gender}"
+					id="geneder">
+					<f:selectItem itemLabel="Selecione" itemValue="" />
+					<f:selectItem itemLabel="Masculino" itemValue="M" />
+					<f:selectItem itemLabel="Feminino" itemValue="F" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+
+			<p>
+				<p:commandButton icon="ui-icon-plusthick" type="submit" value="add"
+					action="#{pessoaBean.addUser()}" update="grid" />
+				<p:commandButton action="index?faces-redirect=true" value="Back"
+					icon="ui-icon-arrowthick-1-w" />
+			</p>
+
+		</h:form>
+	</h:panelGroup>
+
+</h:body>
+
+</html>

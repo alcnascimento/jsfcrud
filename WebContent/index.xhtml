@@ -1,0 +1,153 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Pessoas CRUD</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</h:head>
+
+<h:body>
+
+	<p:spacer>
+	</p:spacer>
+	<h:form id="form">
+			<p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+		
+		<p:dataTable id="dataTable" var="pessoa" paginator="true" rows="10"
+			editable="true" value="#{pessoaBean.users}"
+			styleClass="tableSizeAuto">
+
+
+			<f:facet name="header">  
+                    Pessoas 
+                </f:facet>
+
+			<p:ajax event="rowEdit" listener="#{pessoaBean.onRowEdit}"
+				update=":form:messages" />
+			<p:ajax event="rowEditCancel" listener="#{pessoaBean.onCancel}"
+				update=":form:messages" />
+
+
+			<p:column headerText="Id" styleClass="smallfont">
+				<h:outputText value="#{pessoa.id}" />
+			</p:column>
+			<p:column headerText="Nome" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.name}"/>
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pessoa.name}" style="width:100%" required="true" requiredMessage="Nome: Campos requerido">
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Dt Nascimento" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.birthDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pessoa.birthDate}" style="width:100%" required="true" requiredMessage="Dt Nascimento: Campo requerido">
+							<f:validateRequired />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+
+			</p:column>
+
+
+			<p:column headerText="cpf" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.cpf}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pessoa.cpf}" style="width:100%" required="true" requiredMessage="CPF: Campo requerido">
+							<f:validateRequired />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="e-Mail" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.eMail}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pessoa.eMail}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+		<p:column headerText="Naturalidade" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.cityOfBirth}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pessoa.cityOfBirth}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+
+			<p:column headerText="Nacionalidade" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.countryOfBirth}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar value="#{pessoa.countryOfBirth}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Genero" styleClass="smallfont">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pessoa.gender}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pessoa.gender}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Edit" styleClass="smallfont">
+				<p:rowEditor />
+			</p:column>
+			<p:column headerText="Deletar" styleClass="smallfont">
+				<p:commandButton icon="ui-icon-trash"
+					onclick="PF('confirmDialog').show()" />
+				<p:confirmDialog message="Deseja deletar o registro?"
+					header="Deletar" severity="alert" widgetVar="confirmDialog">
+					<p:commandButton value="Confirmar"
+						action="#{pessoaBean.deleteUser(pessoa)}"
+						oncomplete="PF('confirmDialog').hide()" update="form:dataTable"/>
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('confirmDialog').hide();" type="button"
+						update="form:dataTable" />
+				</p:confirmDialog>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+	<p:spacer>
+	</p:spacer>
+	<h:form>
+		<p:commandButton action="adicionar?faces-redirect=true"
+			icon="ui-icon-pencil" value="Adicionar" />
+	</h:form>
+
+</h:body>
+
+</html>
